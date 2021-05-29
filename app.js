@@ -15,7 +15,11 @@ app.get('/', function(req, res) {
 })
 
 app.use('/', router);
-app.listen(process.env.PROT || 4000, () => console.log('Application running on port 4000'));
+
+//port for local host used for testing 
+//app.listen(process.env.PROT || 4000, () => console.log('Application running on port 4000'));
+
+app.listen(process.env.PROT || 5000, () => console.log('Application running on port 5000'));
 
 app.ws("/ContainerCreator", function(ws, req) {
     ws.on("message", function(event) {
