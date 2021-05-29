@@ -1,0 +1,30 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "\"# PU-Crowd-detection\"",
+  "main": "app.js",
+  "dependencies": {
+    "console": "^0.7.2",
+    "express": "^4.17.1",
+    "express-ws": "^4.0.0",
+    "git": "^0.1.5",
+    "mongoose": "^5.12.11",
+    "node": "^16.1.0",
+    "node.js": "^0.0.1-security",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M3rg3/PU-Crowd-Detection.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/M3rg3/PU-Crowd-Detection/issues"
+  },
+  "homepage": "https://github.com/M3rg3/PU-Crowd-Detection#readme"
+}

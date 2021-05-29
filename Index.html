@@ -4,39 +4,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/index.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
-    <title>Hello world</title>
+    <title>PLY-UNI Crowd Detections</title>
+
+    <style>
+        body {
+            text-align: center;
+            margin: 0;
+            background-color: #124559
+        }
+        
+        #banner {
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            height: 135px;
+            position: relative;
+            border-bottom: 1px solid #124559;
+            background-color: #124559;
+            padding-bottom: 10%;
+        }
+        
+        h1 {
+            font-size: 40px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+            color: aliceblue;
+            top: 30px;
+        }
+        
+        h2 {
+            font-size: 16px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+            color: aliceblue;
+        }
+        
+        #base {
+            background-color: #124559;
+            max-height: 80%;
+            width: auto;
+            display: flex;
+            justify-content: center;
+        }
+        
+        #description {
+            background-color: #598392;
+            margin-bottom: 2%;
+        }
+        
+        .container-section {
+            background-color: black;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+            max-width: 300px;
+            width: 100%;
+            margin: 10px;
+            border-radius: 25px;
+        }
+        
+        .container-section>div {
+            min-height: 100px;
+            width: 100%;
+        }
+        
+        .counter-name {
+            height: 30%;
+        }
+        
+        .counter-number {
+            height: 30%;
+        }
+        
+        .counter-dateTime {
+            height: 30%;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            #base {
+                flex-direction: column;
+            }
+            .container-section {
+                max-width: 100%;
+                width: 100%;
+                margin: 10px 0px;
+            }
+        }
+        
+        .Counter-text {
+            padding-top: 9%;
+            color: white;
+            font-size: 175%;
+        }
+        
+        .Container-title {
+            padding-top: 9%;
+            color: white;
+            font-size: 175%;
+        }
+        
+        .DateTime-text {
+            padding-top: 9%;
+            color: white;
+            font-size: 175%;
+        }
+    </style>
+
+    <script>
+        let Containercreator = new WebSocket("ws://localhost:4000/ContainerCreator");
+        let DataRetriver = new WebSocket("ws://localhost:4000/DataRetriver");
+        let DataUpdater = new WebSocket("ws://localhost:4000/DataUpdater")
+
+
+        var CollectionID = [];
+
+        Containercreator.onopen = function(e) {
+            console.log("Container Web Socket is open")
+        }
+
+        DataRetriver.onopen = function(e) {
+            console.log("Retriver Web Socket is open")
+        }
+
+        DataUpdater.onopen = function(e) {
+            console.log("Updater Web Socket is open")
+        }
+
+
+        Containercreator.onmessage = function(e) {
+            console.log(e);
+
+            var earray = JSON.stringify(e.data).split('|');
+
+            var cycle = earray[0].replace('"', "");
+
+            console.log(cycle);
+
+            var x = 1;
+
+            while (x <= cycle) {
+
+                var stage1 = earray[x].replace(/[^a-zA-Z ]/g, "");
+                console.log(stage1);
+
+                var containercreation = document.createElement('div');
+                containercreation.className = 'container-section';
+                containercreation.id = stage1;
+                document.getElementById('base').appendChild(containercreation);
+
+                var containername = document.createElement('div');
+                containername.className = 'counter-name';
+                containername.id = stage1 + '-Name';
+                document.getElementById(stage1).appendChild(containername);
+
+                var location = document.createElement('p');
+                location.id = stage1 + '-Title';
+                location.className = 'Container-title';
+                var Title = document.createTextNode(stage1);
+                location.appendChild(Title);
+                var Titleid = stage1 + '-Name';
+                document.getElementById(Titleid).appendChild(location);
+
+                var containercount = document.createElement('div');
+                containercount.className = 'counter-number';
+                containercount.id = stage1 + '-counter';
+                var CountId = stage1 + '-counter';
+                document.getElementById(stage1).appendChild(containercount);
+
+                var containercountP = document.createElement('p');
+                containercountP.className = "Counter-text";
+                containercountP.id = stage1 + '-Counter-text';
+                document.getElementById(CountId).appendChild(containercountP);
+
+                var containerDateTime = document.createElement('div');
+                containerDateTime.className = 'counter-dateTime';
+                containerDateTime.id = stage1 + '-dateTime';
+                var DateTimeID = stage1 + '-dateTime';
+                document.getElementById(stage1).appendChild(containerDateTime)
+
+                var containerDateTimeP = document.createElement('p');
+                containerDateTimeP.className = 'DateTime-text';
+                containerDateTimeP.id = stage1 + '-DateTime-text';
+                document.getElementById(DateTimeID).appendChild(containerDateTimeP);
+
+                CollectionID.push(stage1);
+
+                x++;
+            };
+
+            PopulateContainers();
+
+        };
+
+        DataRetriver.onmessage = function(e) {
+
+
+            console.log('DataRetriver: ' + e.data);
+
+            edata = e.data;
+
+            var dataArray = edata.split('"');
+
+            var countid = dataArray[15] + '-Counter-text';
+            console.log(dataArray[7]);
+            var importedcount = document.createTextNode(dataArray[7]);
+            document.getElementById(countid).appendChild(importedcount);
+
+            var DateTimeID = dataArray[15] + '-DateTime-text';
+            console.log(dataArray[11]);
+            var importedDateTime = document.createTextNode(dataArray[11])
+            document.getElementById(DateTimeID).appendChild(importedDateTime);
+
+
+            ReloadData();
+        }
+
+        DataUpdater.onmessage = function(e) {
+
+            console.log(e.data);
+
+            if (e.data == "Update-Complete") {
+
+                ReloadData();
+
+            } else {
+
+                console.log("data")
+
+                var UpdateArray = (e.data).split('"');
+                var loc = UpdateArray[15];
+                var countid = loc + "-Counter-text";
+                var datetimeid = loc + "-DateTime-text";
+
+                var countdiv = document.getElementById(countid);
+                var DTdiv = document.getElementById(datetimeid);
+
+                countdiv.innerText = UpdateArray[7];
+                DTdiv.innerText = UpdateArray[11];
+
+
+            }
+
+
+        }
+
+        function ReloadData() {
+
+            console.log("Waiting 120 Seconds till requesting Update");
+            setTimeout(() => {
+                DataUpdater.send(CollectionID);
+            }, 120000);
+
+        };
+
+        function PopulateContainers() {
+
+            console.log(CollectionID);
+
+            DataRetriver.send(CollectionID);
+
+        };
+
+
+        function CreateContainers() {
+
+            Containercreator.send("Requesting Monitored Size!");
+        }
+    </script>
+
+
+
 </head>
 
-<body>
+<body onload="CreateContainers()">
 
     <div id="banner">
         <H1> Plymouth University Crowd Detection System</H1>
         <br />
-        <h2>W.I.P</h2>
+
     </div>
 
     <div id="description">
-        <p> filler text, filler text, filler text, filler text, filler text, filler text, filler text, filler text,
-            filler text, filler text,</p>
+        <p> This system is a proof of concept for a crowd detection system. Due to limitations this site may not be functional at all hours! This Page will display the location Title, Number of devices in the given area and the date/time the reading was taken.</p>
     </div>
 
     <div id="base">
 
-        <div class="container">
-
-        </div>
-
-        <div class="container">
-
-        </div>
-
-        <div class="container">
-
-        </div>
 
     </div>
 
