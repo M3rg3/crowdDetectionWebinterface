@@ -9,17 +9,17 @@ const { Console } = require('console');
 const uri = "mongodb+srv://Read-only:Password123456789@cluster0.kxfj4.mongodb.net/Locations?retryWrites=true&w=majority";
 
 
-app.get('/mainpage', function(req, res) {
+app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + "/index.html"));
     console.log("Host has connected to application!");
 })
 
-app.use('/mainpage', router);
+app.use('/', router);
 
 //port for local host used for testing 
 //app.listen(process.env.PROT || 4000, () => console.log('Application running on port 4000'));
 
-app.listen(process.env.PROT || 5000, () => console.log('Application running on port 5000'));
+app.listen(process.env.PORT || 5000, () => console.log('Application running on port 5000'));
 
 app.ws("/ContainerCreator", function(ws, req) {
     ws.on("message", function(event) {
