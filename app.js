@@ -10,7 +10,7 @@ const uri = "mongodb+srv://Read-only:Password123456789@cluster0.kxfj4.mongodb.ne
 
 
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + "/index.html"));
+    res.sendFile(path.join(__dirname, 'build', "/index.html"));
     console.log("Host has connected to application!");
 })
 
