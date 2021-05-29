@@ -272,7 +272,7 @@
 
         function CreateContainers() {
 
-            Containercreator.send("Requesting Monitored Size!");
+            Containercreator.onopen = () => Containercreator.send("Requesting Monitored Size!");
         }
     </script>
 
