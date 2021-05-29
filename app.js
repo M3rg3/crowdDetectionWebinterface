@@ -9,12 +9,12 @@ const { Console } = require('console');
 const uri = "mongodb+srv://Read-only:Password123456789@cluster0.kxfj4.mongodb.net/Locations?retryWrites=true&w=majority";
 
 
-app.get('/', function(req, res) {
+app.get('/mainpage', function(req, res) {
     res.sendFile(path.join(__dirname + "/index.html"));
     console.log("Host has connected to application!");
 })
 
-app.use('/', router);
+app.use('/mainpage', router);
 
 //port for local host used for testing 
 //app.listen(process.env.PROT || 4000, () => console.log('Application running on port 4000'));
