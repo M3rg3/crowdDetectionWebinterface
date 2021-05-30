@@ -256,7 +256,7 @@
 
             console.log("Waiting 120 Seconds till requesting Update");
             setTimeout(() => {
-                //let DataUpdater = new WebSocket("wss://crowd-detection-webpage.herokuapp.com/DataUpdater");
+                let DataUpdater = new WebSocket("wss://crowd-detection-webpage.herokuapp.com/DataUpdater");
                 console.log("120 has passed")
                 DataUpdater.onopen = () => DataUpdater.send(CollectionID);
             }, 120000);
