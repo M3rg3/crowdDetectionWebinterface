@@ -257,7 +257,7 @@
             console.log("Waiting 120 Seconds till requesting Update");
             setTimeout(() => {
                 console.log("sending request")
-                Data.onopen = () => DataUpdater.send(CollectionID);
+                DataUpdater.OPEN = () => DataUpdater.send(CollectionID);
             }, 120000);
 
         };
