@@ -117,7 +117,7 @@
     <script>
         let Containercreator = new WebSocket("wss://crowd-detection-webpage.herokuapp.com/ContainerCreator");
         let DataRetriver = new WebSocket("wss://crowd-detection-webpage.herokuapp.com/DataRetriver");
-        let DataUpdater = new WebSocket("wss://crowd-detection-webpage.herokuapp.com/DataUpdater")
+        let DataUpdater = new WebSocket("wss://crowd-detection-webpage.herokuapp.com/DataUpdater");
 
 
         var CollectionID = [];
@@ -256,7 +256,8 @@
 
             console.log("Waiting 120 Seconds till requesting Update");
             setTimeout(() => {
-                DataUpdater.send(CollectionID);
+                console.log("sending request")
+                Data.onopen = () => DataUpdater.send(CollectionID);
             }, 120000);
 
         };
